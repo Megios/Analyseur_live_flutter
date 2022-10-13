@@ -10,7 +10,93 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-// Variable :
+  // Définition d'un controller qui va observer l'évolution de notre champs de saisi
+  late TextEditingController saisiController;
+
+  //On va initialiser notre controleur dans le initState
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //instancier le controler - réserve l'espace mémoire
+    saisiController = TextEditingController();
+    saisiController.addListener(_ecouteurText);
+  }
+
+  //définition de notre fonction d'écoute
+  void _ecouteurText() {
+    //on passe ici quand on va saisir du text
+    print("Passage dans l'écouteur");
+    setState(() {
+      motSaisi = saisiController.text;
+    });
+  }
+
+  void _incremente(String i) {
+    // correction : setState sur toutes la fonction mais semblerait que ce soit non nécéssaire
+    int? valeur = voyelleDico[i];
+    valeur = valeur! + 1; //le point va devaller la variable
+    voyelleDico[i] = valeur;
+  }
+
+  void _analyserMot() {
+    print("analyse lancer");
+    //la stratégie : parcourir notre chaine de caractère, caractère par caractère
+    //on va dans le bon cas : switch
+    for (var i = 0; i < motSaisi.length; i++) {
+      switch (motSaisi[i].toLowerCase()) {
+        case 'a':
+          _incremente('a');
+          break;
+        case 'e':
+          _incremente('e');
+          break;
+        case 'i':
+          _incremente('i');
+          break;
+        case 'u':
+          _incremente('u');
+          break;
+        case 'o':
+          _incremente('o');
+          break;
+        case 'y':
+          _incremente('y');
+          break;
+        case ' ':
+          null;
+          break;
+        default:
+          nbConsonnes = nbConsonnes + 1;
+          break;
+      }
+    }
+    print(voyelleDico);
+    print(nbConsonnes);
+    _resetDico();
+  }
+
+  //défition de notre map ayant pour clé un string (notre voyelle) et une valeur : entier (le nombre d'occurences)
+  Map<String, int> voyelleDico = {
+    'a': 0,
+    'e': 0,
+    'i': 0,
+    'o': 0,
+    'u': 0,
+    "y": 0
+  };
+  int nbConsonnes = 0;
+  // reset : remise à zero de notre map
+  void _resetDico() {
+    nbConsonnes = 0;
+    setState(() {
+      voyelleDico.forEach((key, value) {
+        voyelleDico[key] = 0;
+      });
+    });
+  }
+
+  // Variable :
   String motSaisi = "";
 
   @override
@@ -113,11 +199,14 @@ class _HomePageState extends State<HomePage> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
                 // configuration du comportement
-                onChanged: (newValue) {
+                //premiere methode pour controler le champs de saisie
+                /*onChanged: (newValue) {
                   setState(() {
                     motSaisi = newValue;
                   });
-                },
+                },*/
+                //2eme méthode
+                controller: saisiController,
               ),
             ),
             //on veut afficher le text que si quelque chose a été saisi
@@ -126,7 +215,18 @@ class _HomePageState extends State<HomePage> {
                     "Vous voulez analysez : $motSaisi ?",
                     style: const TextStyle(fontFamily: 'Pacifico'),
                   )
-                : const Text("")
+                : const Text(""),
+            // _analyserMot ( fonction qui va analyser le mot)
+            ElevatedButton(
+                onPressed: _analyserMot,
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blue),
+                    padding:
+                        MaterialStateProperty.all(const EdgeInsets.all(15))),
+                child: const Text(
+                  "analyser",
+                  style: TextStyle(fontFamily: "Pacifico", fontSize: 20),
+                ))
           ],
         ));
   }
