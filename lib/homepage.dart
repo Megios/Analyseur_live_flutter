@@ -16,6 +16,79 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        //drawer : va permettre de mettre un menu dans l'application
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                  decoration: const BoxDecoration(color: Colors.blue),
+                  child: Column(
+                    children: const [
+                      Text("Menu",
+                          style: TextStyle(
+                              fontFamily: "Pacifico",
+                              fontSize: 20,
+                              color: Colors.white)),
+                      SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: CircleAvatar(
+                            backgroundImage: AssetImage("images/abc.png")),
+                      )
+                    ],
+                  )),
+              // On définit une tuile qui va être un onglet du menu
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(
+                      Icons.abc_outlined,
+                      color: Colors.black,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Analysez",
+                        style: TextStyle(fontFamily: "Pacifico"),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(Icons.book_outlined, color: Colors.black),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(
+                        "Historique",
+                        style: TextStyle(fontFamily: "Pacifico"),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ListTile(
+                title: Row(
+                  children: const [
+                    Icon(
+                      Icons.info_outline_rounded,
+                      color: Colors.black,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(
+                        "A propos",
+                        style: TextStyle(fontFamily: "Pacifico"),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
         appBar: AppBar(
           title: const Text("Analyseur"),
         ),
