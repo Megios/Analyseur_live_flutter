@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_live_appplication_analyse/RowVoyelle.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _analyserMot() {
+    _resetDico();
     print("analyse lancer");
     //la stratégie : parcourir notre chaine de caractère, caractère par caractère
     //on va dans le bon cas : switch
@@ -73,7 +75,6 @@ class _HomePageState extends State<HomePage> {
     }
     print(voyelleDico);
     print(nbConsonnes);
-    _resetDico();
   }
 
   //défition de notre map ayant pour clé un string (notre voyelle) et une valeur : entier (le nombre d'occurences)
@@ -83,7 +84,7 @@ class _HomePageState extends State<HomePage> {
     'i': 0,
     'o': 0,
     'u': 0,
-    "y": 0
+    'y': 0
   };
   int nbConsonnes = 0;
   // reset : remise à zero de notre map
@@ -226,7 +227,31 @@ class _HomePageState extends State<HomePage> {
                 child: const Text(
                   "analyser",
                   style: TextStyle(fontFamily: "Pacifico", fontSize: 20),
-                ))
+                )),
+            RowVoyelle(
+                letter: 'a',
+                color: Colors.red,
+                textOccurences: '${voyelleDico["a"]} occurences'),
+            RowVoyelle(
+                letter: 'e',
+                color: Colors.blue,
+                textOccurences: '${voyelleDico["e"]} occurences'),
+            RowVoyelle(
+                letter: 'i',
+                color: Colors.yellow,
+                textOccurences: '${voyelleDico["i"]} occurences'),
+            RowVoyelle(
+                letter: 'u',
+                color: Colors.green,
+                textOccurences: '${voyelleDico["u"]} occurences'),
+            RowVoyelle(
+                letter: 'o',
+                color: Colors.grey,
+                textOccurences: '${voyelleDico["o"]} occurences'),
+            RowVoyelle(
+                letter: 'y',
+                color: Colors.pink,
+                textOccurences: '${voyelleDico["y"]} occurences'),
           ],
         ));
   }
